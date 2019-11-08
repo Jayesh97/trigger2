@@ -4,7 +4,7 @@
 var request = require('request');
 
 var jenkins_config = {username:"admin",token:"116377b0664c6134c003dca90ab543d280",project_name:'se_p'}
-var botwa_config = {url:"http://162.222.180.32:3000/jenkins"}
+var botwa_config = {url:"https://thin-hound-20.localtunnel.me/complete"}
 
 function getDefaultOptions(jobname,endpoint)
 {
