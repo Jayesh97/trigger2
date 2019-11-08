@@ -4,7 +4,7 @@
 var request = require('request');
 
 var jenkins_config = {username:"admin",token:"116377b0664c6134c003dca90ab543d280",project_name:'se_p'}
-var botwa_config = {url:"https://thin-hound-20.localtunnel.me/complete"}
+var botwa_config = {url:"http://162.222.180.32:3000/complete"}
 
 function getDefaultOptions(jobname,endpoint)
 {
@@ -32,7 +32,7 @@ function post_to_botwa(current_build_number, current_build_status)
     var options = getBotwaOptions();
     //console.log(current_build_number);
     //console.log(options);
-    request.post(botwa_config.url, { json: [{build_no:current_build_number},{build_status:current_build_status}] }, function(error, response, body){
+    request.post(botwa_config.url, { json: [{build_no:"1"},{build_status:current_build_status}] }, function(error, response, body){
         if (error) {
             console.error(error)
             return
