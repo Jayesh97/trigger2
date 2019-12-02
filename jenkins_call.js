@@ -41,17 +41,6 @@ function getBotwaOptions()
 }
 
 
-function post_to_botwa(current_project_name,current_build_number, current_build_status)
-{
-    var options = getBotwaOptions();
-    request.post(botwa_config.url, { json: {build_no:current_build_number,build_status:current_build_status} }, function(error, response, body){
-        if (error) {
-            console.error(error)
-            return
-          }
-        });
-}
-
 
 async function get_job_names()
 {
@@ -59,7 +48,7 @@ async function get_job_names()
     request(options, function(error, response, body){
         if (!error && response.statusCode == 200) {
             obj = JSON.parse(body);
-            console.log(obj)
+            //console.log(obj)
             for(index in obj.jobs){
                 console.log(obj.jobs[index])
             }
@@ -70,8 +59,8 @@ async function get_job_names()
 async function get_job(jobname,endpoint)
 {
     var options = getDefaultOptions(jobname,endpoint);
-    console.log(options);
-    request(options, function(error, response, body){
+    //console.log(options);
+    request(options, async function(error, response, body){
         //console.log(options)
         if (!error && response.statusCode == 200) {
             //console.log(body)
@@ -82,10 +71,23 @@ async function get_job(jobname,endpoint)
             //console.log(current_build_status)
             //console.log(obj.lastBuild.url);
             //console.log(obj) // Print the json
+            await new Promise(resolve => setTimeout(resolve, 5000))
             post_to_botwa(current_project_name,current_build_number,current_build_status);
           }
         });
 }
 
-get_job_names()
+function post_to_botwa(current_project_name,current_build_number, current_build_status)
+{
+    var options = getBotwaOptions();
+    //console.log(current_project_name)
+    request.post(botwa_config.url, { json: {project_name:current_project_name,build_no:current_build_number,build_status:current_build_status} }, function(error, response, body){
+        if (error) {
+            console.error(error)
+            return
+          }
+        });
+}
+
+//get_job_names()
 get_job(jenkins_config.project_name,"json?pretty=true");
